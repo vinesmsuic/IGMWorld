@@ -209,12 +209,12 @@
                         </div>
                         <div class="content">
                             <p>
-                                where \(\Delta_k\) denotes an intervention of type \(k\), and \(W'\) is the resulting world that realizes the requested intervention while preserving unrelated properties of \(W\). We characterize interventions by their <b>depth</b>: property interventions (L1) modify properties of existing components without changing their identity or underlying behavior; entity interventions (L2) introduce new entities or content while largely preserving existing dynamics; dynamics interventions (L3) introduce or modify rules governing how entities behave and interact; and system interventions (L4) modify multiple coupled components that jointly constitute a world-level system. In game-modding terminology these correspond to parameter, content, mechanic, and system editing.
+                                where \(\Delta_k\) denotes an intervention of type \(k\), and \(W'\) is the resulting world that realizes the requested intervention while preserving unrelated properties of \(W\). We characterize interventions by their <b>depth</b>, running from property edits (L1) through entity and dynamics changes to system-level interventions (L4). In game-modding terminology these correspond to parameter, content, mechanic, and system editing.
                             </p>
                         </div>
                         <div class="content">
                             <p>
-                                The levels characterize the semantic scope and coupling of a requested intervention rather than prescribing which implementation components must change. Intervention depth therefore measures how strongly an edit must coordinate multiple parts of the world, not how much code it requires: a system-level edit may be small in implementation yet still need several interacting components to remain consistent. Entity-level edits can often be realized by introducing localized content that conforms to existing world behavior, while dynamics-level edits require new state transitions or interaction rules, and system-level edits additionally coordinate player state, interfaces, progression, and world behavior.
+                                The levels characterize the semantic scope and coupling of a requested intervention rather than prescribing which implementation components must change. Intervention depth therefore measures how strongly an edit must coordinate multiple parts of the world, not how much code it requires: a system-level edit may be small in implementation yet still need several interacting components to remain consistent.
                             </p>
                         </div>
                         <figure class="table-figure">
@@ -277,7 +277,7 @@
                         <h2 class="title is-3 has-text-centered">IGMWorld and IGMBench</h2>
                         <div class="content">
                             <p>
-                                Two components support this evaluation. <b>IGMWorld</b> provides the executable environment in which agents modify existing game repositories, build and run their edits, and are evaluated on the resulting world rather than on code structure alone. <b>IGMBench</b> provides the task instances: 110 world-editing tasks across Minecraft and Terraria, distributed approximately evenly across the four intervention levels, with 1,161 state and behavioral criteria in total. Each task specifies a natural-language request and multiple criteria; a task succeeds only if the implementation builds and passes all of them.
+                                Two components support this evaluation. <b>IGMWorld</b> provides the executable environment in which agents modify existing game repositories, build and run their edits, and are evaluated on the resulting world rather than on code structure alone. <b>IGMBench</b> provides the task instances: 110 world-editing tasks across Minecraft and Terraria, distributed approximately evenly across the four intervention levels, with 1,161 state and behavioral criteria in total.
                             </p>
                         </div>
                         <figure class="item">
@@ -325,7 +325,7 @@
                         </div>
                         <div class="content">
                             <p>
-                                Visual consistency is the one dimension without a programmatic ground truth, so rather than ask a model whether an asset looks right, we measure it against the game&rsquo;s existing art. Each agent-produced texture is compared to the vanilla asset library, 1,989 reference assets in Minecraft and 15,456 in Terraria, and scored by its mean distance to the five nearest references drawn from the same asset category, under a text factor that is either the requested object identity (semantic consistency) or &ldquo;art style&rdquo; (style consistency). Category conditioning keeps the comparison away from semantically incompatible assets, and averaging over five neighbours accommodates legitimate variation within a category. The threshold comes from the same construction: vanilla assets are scored against each other leave-one-out, and the &alpha;-quantile of that distribution becomes the bar, so &ldquo;consistent&rdquo; means <i>as close to the game&rsquo;s art as the game&rsquo;s art is to itself</i>. Choices were checked for stability (<i>k</i> from 1 to 10 preserves at least 88% of pass/fail verdicts) and against people: nine raters with prior gaming experience judged 40 blind-sampled agent textures, and the style factor agrees with the majority human judgment at 0.66 AUC, compared with 0.54 for a CSD style embedding.
+                                The reference library is the game&rsquo;s own art: 1,989 assets in Minecraft and 15,456 in Terraria. The same construction runs under two text factors, the requested object identity for semantic consistency and &ldquo;art style&rdquo; for style consistency, so &ldquo;consistent&rdquo; means <i>as close to the game&rsquo;s art as the game&rsquo;s art is to itself</i>. We checked the choices for stability (<i>k</i> from 1 to 10 preserves at least 88% of pass/fail verdicts) and against people: nine raters with prior gaming experience judged 40 blind-sampled agent textures, and the style factor agrees with the majority human judgment at 0.66 AUC, against 0.54 for a CSD style embedding.
                             </p>
                         </div>
                         <div class="equation">
@@ -353,12 +353,12 @@
                         <h2 class="title is-3 has-text-centered">Reliability Varies With Intervention Depth</h2>
                         <div class="content">
                             <p>
-                                Current frontier agents already exhibit substantial functional world-editing capability. Under the strict World-Editing Success Rate (WSR), the evaluated configurations solve between 31.8% and 78.2% of IGMBench tasks, with GPT-5.6 Sol reaching 78.2%. Criterion Pass Rate (CPR) is substantially higher, reaching 94.8%, indicating that many unsuccessful tasks nevertheless satisfy substantial portions of the requested behavior.
+                                Current frontier agents already exhibit substantial functional world-editing capability. Criterion Pass Rate runs well above the stricter World-Editing Success Rate throughout, indicating that many unsuccessful tasks nevertheless satisfy substantial portions of the requested behavior.
                             </p>
                         </div>
                         <div class="content">
                             <p>
-                                Reliability varies systematically with intervention depth. Every evaluated configuration achieves its highest WSR at L1, while performance is generally lower for deeper dynamics and system interventions, although the relative ordering of L3 and L4 varies across models and games. GPT-5.6 Sol decreases from 96.3% WSR at L1 to 48.1% at L4, while Claude Opus 4.8 decreases from 92.6% to 55.6%. Because deeper tasks also contain more evaluation criteria, we stratify tasks by criterion count: within comparable criterion-count ranges, L1 remains substantially more reliable, suggesting that intervention depth captures structure beyond criterion count alone.
+                                Reliability varies systematically with intervention depth. Every evaluated configuration achieves its highest WSR at L1, while performance is generally lower for deeper dynamics and system interventions, although the relative ordering of L3 and L4 varies across models and games. Because deeper tasks also contain more evaluation criteria, we stratify tasks by criterion count: within comparable criterion-count ranges, L1 remains substantially more reliable, suggesting that intervention depth captures structure beyond criterion count alone.
                             </p>
                         </div>
                         <figure class="item">
@@ -420,7 +420,7 @@
                         </div>
                         <div class="content">
                             <p>
-                                The composition of behavioral failures also changes with depth. L1 failures are almost entirely mechanic semantics, such as a wrong value or formula. From L2 onward, interaction/progression failures, in which new content misbehaves on contact with existing systems, become the largest category and rise to 43% at L4, while resource/registration failures remain at 13&ndash;24% and do not grow with depth. This is consistent with deeper edits requiring coordination across multiple interacting world components rather than a single localized change.
+                                The composition of behavioral failures also changes with depth. L1 failures are almost entirely mechanic semantics, such as a wrong value or formula. From L2 onward, interaction/progression failures, in which new content misbehaves on contact with existing systems, become the largest category and keep growing with depth, while resource/registration failures stay flat. This is consistent with deeper edits requiring coordination across multiple interacting world components rather than a single localized change.
                             </p>
                         </div>
                         <figure class="item">
@@ -461,7 +461,7 @@
                         <h2 class="title is-3 has-text-centered">Visual Consistency Is a Distinct Bottleneck</h2>
                         <div class="content">
                             <p>
-                                Visual integration remains substantially weaker than functional world editing. Native game assets achieve joint style-and-semantic pass rates of 0.80 in Minecraft and 0.78 in Terraria, whereas every evaluated agent configuration remains below 0.50; the strongest joint pass rates reach 0.47 in Minecraft and 0.29 in Terraria.
+                                Visual integration remains substantially weaker than functional world editing. In both games, native assets clear the joint style-and-semantic check at a rate no evaluated agent approaches.
                             </p>
                         </div>
                         <div class="content">
