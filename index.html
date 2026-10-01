@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="IGMWorld formulates world editing as intervening on an existing executable world, with IGMBench: 110 game-modding tasks and over 1.1K executable state and behavioral criteria across Minecraft and Terraria.">
+    <meta property="og:title" content="World Editing: Intervening on Executable Worlds at Increasing Depth" />
+    <meta property="og:description" content="IGMWorld formulates world editing as intervening on an existing executable world, with IGMBench: 110 game-modding tasks and over 1.1K executable state and behavioral criteria across Minecraft and Terraria." />
+    <meta property="og:url" content="https://vinesmsuic.github.io/IGMWorld/" />
+    <meta property="og:image" content="https://vinesmsuic.github.io/IGMWorld/static/images/howigmworldworks.png" />
+    <meta property="og:image:width" content="2594" />
+    <meta property="og:image:height" content="720" />
+
+    <meta name="twitter:title" content="World Editing: Intervening on Executable Worlds at Increasing Depth">
+    <meta name="twitter:description" content="IGMWorld formulates world editing as intervening on an existing executable world, with IGMBench: 110 game-modding tasks and over 1.1K executable state and behavioral criteria across Minecraft and Terraria.">
+    <meta name="twitter:image" content="https://vinesmsuic.github.io/IGMWorld/static/images/howigmworldworks.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="keywords" content="world editing, world models, game modding, intervention depth, IGMWorld, IGMBench, Minecraft, Terraria, coding agents">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>World Editing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="static/css/index.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderMathInElement !== "function") return;
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false }
+                ],
+                throwOnError: false
+            });
+        });
+    </script>
+    <script defer src="static/js/fontawesome.all.min.js"></script>
+</head>
+
+<body>
+
+
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title">World Editing: Intervening on Executable Worlds at Increasing Depth</h1>
+                        <div class="is-size-5 publication-authors">
+                            <!-- Paper authors -->
+                            <span class="author-block"><a href="https://kuwingfung.github.io/" target="_blank">Max Ku</a><sup>1,2</sup>,</span>
+                            <span class="author-block">Nok-Kan Law<sup>2</sup>,</span>
+                            <span class="author-block">Yu-Chien Tang<sup>2</sup>,</span>
+                            <span class="author-block"><a href="https://kblueleaf.net/" target="_blank">Shih-Ying Yeh</a><sup>2,3</sup>,</span>
+                            <span class="author-block">Ping Nie<sup>1</sup>,</span>
+                            <span class="author-block">Andy Zheng<sup>1</sup>,</span>
+                            <span class="author-block">Tat Hei Lai<sup>1</sup>,</span>
+                            <span class="author-block">Fei-Yueh Chen<sup>2</sup>,</span>
+                            <span class="author-block">Nikko Yu<sup>2</sup>,</span>
+                            <span class="author-block">Wei-Chieh Sun<sup>2</sup>,</span>
+                            <span class="author-block">Suzy Huang<sup>2</sup>,</span>
+                            <span class="author-block">Chiao-Wei Hsu<sup>2</sup>,</span>
+                            <span class="author-block">Chih-Chuan Huang<sup>2</sup>,</span>
+                            <span class="author-block">Chak-Wing Mak<sup>2</sup>,</span>
+                            <span class="author-block">Ho Yin Sam Ng<sup>2</sup>,</span>
+                            <span class="author-block">Edisy Kin Wai Chan<sup>2</sup>,</span>
+                            <span class="author-block"><a href="https://minhungchen.netlify.app/" target="_blank">Min-Hung Chen</a><sup>2</sup>,</span>
+                            <span class="author-block"><a href="https://hkchengrex.com/" target="_blank">Ho Kei Cheng</a><sup>2,4</sup></span>
+                        </div>
+
+                        <div class="publication-authors affiliation-block">
+                            <span class="author-block">
+                                <sup>1</sup>University of Waterloo,
+                                <sup>2</sup><a href="https://github.com/GuidedGenerationGroup" target="_blank">G-G-G</a>,
+                                <sup>3</sup><a href="https://github.com/comfy-org" target="_blank">Comfy Org Research</a>,
+                                <sup>4</sup>University of Illinois Urbana-Champaign
+                            </span>
+                            <span class="author-block contact-line">
+                                Contact: <a href="mailto:m3ku@uwaterloo.ca">m3ku@uwaterloo.ca</a>
+                            </span>
+                        </div>
+
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+
+                                <!-- Github link -->
+                                <span class="link-block">
+                                    <a href="https://github.com/vinesmsuic/IGMWorld" target="_blank"
+                                    class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fab fa-github"></i>
+                                        </span>
+                                        <span>Code</span>
+                                    </a>
+                                </span>
+
+                                <!-- ArXiv abstract Link -->
+                                <span class="link-block">
+                                    <a class="external-link button is-normal is-rounded is-dark" disabled>
+                                        <span class="icon">
+                                            <i class="ai ai-arxiv"></i>
+                                        </span>
+                                        <span>arXiv (coming soon)</span>
+                                    </a>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teaser -->
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <figure class="item">
+                            <img src="static/images/qual_maingames.jpg" alt="Successful world edits in Minecraft and Terraria across intervention levels" width="100%"/>
+                            <figcaption class="fig-caption">
+                                Agents intervene on commercially released games through their native modding ecosystems, from introducing a single new entity to rebuilding a coupled world-level system. Top: Minecraft. Bottom: Terraria.
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End teaser -->
+
+
+    <!-- Key takeaways -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <h2 class="title is-3 has-text-centered">TL;DR</h2>
+                        <div class="content tldr-lead">
+                            <p>
+                                Interactive world models are increasingly able to generate environments and act within them, yet deliberately <b>editing</b> an existing executable world remains underexplored. We formulate world editing as intervening on a world while preserving the properties that should remain unchanged, and introduce <b>intervention depth</b> as an axis describing how strongly an edit couples a world&rsquo;s entities, dynamics, and systems. We instantiate the capability through industry-grade game modding: <b>IGMWorld</b> provides the executable environment, and <b>IGMBench</b> contributes 110 tasks with over 1.1K deterministic state and behavioral criteria across Minecraft and Terraria.
+                            </p>
+                        </div>
+                        <ul class="tldr">
+                            <li><b>Frontier agents are already capable, but reliability falls with depth.</b> The strongest configuration solves 78.2% of tasks under a strict all-criteria measure. Every agent peaks on shallow property edits and degrades on deeper dynamics and system edits, and the effect survives controlling for how many criteria a task has, so depth is not simply &ldquo;more requirements.&rdquo;</li>
+                            <li><b>Failures happen after the build succeeds.</b> Most unsuccessful edits still compile and load. The bottleneck is realizing the requested behavior, and the failures that grow with depth are the ones where new content misbehaves on contact with existing systems.</li>
+                            <li><b>Visual consistency is a separate axis.</b> Native game art reaches a joint style-and-semantic pass rate of 0.80 in Minecraft and 0.78 in Terraria; every evaluated agent stays below 0.50. The visual ranking does not track the functional one, so world editing is multidimensional.</li>
+                            <li><b>Evaluation is deterministic.</b> Every criterion is an executable check against the running game: state queries, scripted in-game actions, and paired regression checks, with no LLM or VLM acting as judge.</li>
+                        </ul>
+                        <div class="kpi-row">
+                            <div class="kpi-tile">
+                                <div class="kpi-value">110</div>
+                                <div class="kpi-label">World-editing tasks</div>
+                            </div>
+                            <div class="kpi-tile">
+                                <div class="kpi-value">1,161</div>
+                                <div class="kpi-label">State &amp; behavioral criteria</div>
+                            </div>
+                            <div class="kpi-tile">
+                                <div class="kpi-value">7</div>
+                                <div class="kpi-label">Agent configurations</div>
+                            </div>
+                            <div class="kpi-tile">
+                                <div class="kpi-value">78.2%</div>
+                                <div class="kpi-label">GPT-5.6 Sol, overall</div>
+                            </div>
+                            <div class="kpi-tile">
+                                <div class="kpi-value">48.1%</div>
+                                <div class="kpi-label">GPT-5.6 Sol at L4</div>
+                            </div>
+                            <div class="kpi-tile">
+                                <div class="kpi-value">&lt;0.50</div>
+                                <div class="kpi-label">Joint visual pass, all agents</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Key takeaways -->
+
+
+    <!-- World editing as intervention -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <h2 class="title is-3 has-text-centered">World Editing as Intervention</h2>
+                        <div class="content">
+                            <p>
+                                We formulate world editing as an intervention on an existing executable world. Let a world be abstractly represented as \(W = (S, T, R, \dots)\), where \(S\) denotes its entities and state space, \(T\) its transition dynamics, and \(R\) the rules and systems that govern interactions. Given a natural-language editing instruction, a world-editing agent transforms \(W\) as
+                        </p>
+                        </div>
+                        <div class="equation">
+                            $$W \xrightarrow{\;\Delta_k\;} W' = f(W, \Delta_k), \qquad k \in \{\text{property},\, \text{entity},\, \text{dynamics},\, \text{system}\}$$
+                        </div>
+                        <div class="content">
+                            <p>
+                                where \(\Delta_k\) denotes an intervention of type \(k\), and \(W'\) is the resulting world that realizes the requested intervention while preserving unrelated properties of \(W\). We characterize interventions by their <b>depth</b>: property interventions (L1) modify properties of existing components without changing their identity or underlying behavior; entity interventions (L2) introduce new entities or content while largely preserving existing dynamics; dynamics interventions (L3) introduce or modify rules governing how entities behave and interact; and system interventions (L4) modify multiple coupled components that jointly constitute a world-level system. In game-modding terminology these correspond to parameter, content, mechanic, and system editing.
+                            </p>
+                        </div>
+                        <div class="content">
+                            <p>
+                                The levels characterize the semantic scope and coupling of a requested intervention rather than prescribing which implementation components must change. Intervention depth therefore measures how strongly an edit must coordinate multiple parts of the world, not how much code it requires: a system-level edit may be small in implementation yet still need several interacting components to remain consistent. Entity-level edits can often be realized by introducing localized content that conforms to existing world behavior, while dynamics-level edits require new state transitions or interaction rules, and system-level edits additionally coordinate player state, interfaces, progression, and world behavior.
+                            </p>
+                        </div>
+                        <figure class="table-figure">
+                            <div class="table-container">
+                            <table class="table is-narrow is-hoverable taxonomy-table">
+                                <thead>
+                                    <tr>
+                                        <th class="level-cell">Level</th>
+                                        <th>World Intervention</th>
+                                        <th>Game Modding</th>
+                                        <th>Examples</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="level-cell"><b>L1</b></td>
+                                        <td><b>Property Intervention</b>: Modify properties of existing components without changing their identity or underlying behavior.</td>
+                                        <td><b>Parameter Editing</b>: Modify parameters, configurations, or appearance of existing game components.</td>
+                                        <td>Increase weapon damage; replace a monster's visual asset.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="level-cell"><b>L2</b></td>
+                                        <td><b>Entity Intervention</b>: Introduce new entities or content while largely preserving existing dynamics.</td>
+                                        <td><b>Content Editing</b>: Add new content that conforms to existing mechanics.</td>
+                                        <td>Add a crafting recipe or item; add a monster or NPC.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="level-cell"><b>L3</b></td>
+                                        <td><b>Dynamics Intervention</b>: Modify rules governing entity behavior and interaction.</td>
+                                        <td><b>Mechanic Editing</b>: Modify game logic governing behaviors and interactions.</td>
+                                        <td>Add an air-dash mechanic; add a status-effect system.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="level-cell"><b>L4</b></td>
+                                        <td><b>System Intervention</b>: Modify multiple coupled components and interactions forming a world-level system.</td>
+                                        <td><b>System Editing</b>: Modify multiple interacting game subsystems.</td>
+                                        <td>Add a skill tree; overhaul the economy system.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                            <figcaption class="fig-caption">
+                            <b>World-editing taxonomy</b> and its realization in game modding.
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End World editing as intervention -->
+
+
+    <!-- IGMWorld and IGMBench -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <h2 class="title is-3 has-text-centered">IGMWorld and IGMBench</h2>
+                        <div class="content">
+                            <p>
+                                Two components support this evaluation. <b>IGMWorld</b> provides the executable environment in which agents modify existing game repositories, build and run their edits, and are evaluated on the resulting world rather than on code structure alone. <b>IGMBench</b> provides the task instances: 110 world-editing tasks across Minecraft and Terraria, distributed approximately evenly across the four intervention levels, with 1,161 state and behavioral criteria in total. Each task specifies a natural-language request and multiple criteria; a task succeeds only if the implementation builds and passes all of them.
+                            </p>
+                        </div>
+                        <figure class="item">
+                            <img src="static/images/howigmworldworks.png" alt="Overview of IGMWorld" width="100%" loading="lazy"/>
+                            <figcaption class="fig-caption">
+                                <b>Overview of IGMWorld.</b> A world-editing agent modifies a scaffold mod repository from a natural-language request and produces an edited world, which is evaluated for executability, state and behavioral correctness, and visual consistency with existing in-game assets.
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End IGMWorld and IGMBench -->
+
+
+    <!-- Evaluation -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <h2 class="title is-3 has-text-centered">How Edits Are Evaluated</h2>
+                        <div class="content">
+                            <p>
+                                Every one of the 1,161 criteria is a <b>deterministic check against the running game</b>. No language or vision&ndash;language model is asked to judge whether an edit succeeded. Validators assess observable world behavior rather than source-code structure, so different implementations may satisfy the same intervention, and a task succeeds only if it builds and passes all of its criteria.
+                            </p>
+                        </div>
+                        <div class="stage-row">
+                            <div class="stage-card">
+                                <div class="stage-num">Stage 1</div>
+                                <div class="stage-title">Executability</div>
+                                <div class="stage-text">The submission must compile into a valid mod package and load in the target game without crashing. Build and load are strict gates.</div>
+                            </div>
+                            <div class="stage-card">
+                                <div class="stage-num">Stage 2</div>
+                                <div class="stage-title">World-Edit Correctness</div>
+                                <div class="stage-text"><b>State checks</b> query properties of the running game: entity attributes, item statistics, recipes, registrations. <b>Behavioral checks</b> execute controlled in-game actions and verify the resulting state transitions. Paired <b>regression checks</b> (225 across 30 tasks) compare the modified and original worlds to test that unrelated properties remain unchanged.</div>
+                            </div>
+                            <div class="stage-card">
+                                <div class="stage-num">Stage 3</div>
+                                <div class="stage-title">Visual Consistency</div>
+                                <div class="stage-text">An asset is scored by <b>how close it sits to the game&rsquo;s own art</b>: the mean distance to its \(k=5\) nearest category-matched vanilla references (TPIPS supplies the text-conditioned distance). The pass bar is not chosen by hand. It is the \(\alpha=0.15\) quantile of leave-one-out scores among the vanilla assets themselves, so native art passes at 0.85 by construction.</div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <p>
+                                Visual consistency is the one dimension without a programmatic ground truth, so rather than ask a model whether an asset looks right, we measure it against the game&rsquo;s existing art. Each agent-produced texture is compared to the vanilla asset library, 1,989 reference assets in Minecraft and 15,456 in Terraria, and scored by its mean distance to the five nearest references drawn from the same asset category, under a text factor that is either the requested object identity (semantic consistency) or &ldquo;art style&rdquo; (style consistency). Category conditioning keeps the comparison away from semantically incompatible assets, and averaging over five neighbours accommodates legitimate variation within a category. The threshold comes from the same construction: vanilla assets are scored against each other leave-one-out, and the &alpha;-quantile of that distribution becomes the bar, so &ldquo;consistent&rdquo; means <i>as close to the game&rsquo;s art as the game&rsquo;s art is to itself</i>. Choices were checked for stability (<i>k</i> from 1 to 10 preserves at least 88% of pass/fail verdicts) and against people: nine raters with prior gaming experience judged 40 blind-sampled agent textures, and the style factor agrees with the majority human judgment at 0.66 AUC, compared with 0.54 for a CSD style embedding.
+                            </p>
+                        </div>
+                        <div class="equation">
+                            $$S_f(x; c) \;=\; \frac{1}{k} \sum_{r_i \,\in\, \mathrm{kNN}(x,\, I_c;\, f)} \mathrm{TPIPS}(x, r_i; f)$$
+                        </div>
+                        <div class="content">
+                            <p>
+                                Here \(x\) is the evaluated asset, \(I_c\) the native reference assets of category \(c\), and \(f\) the text factor. An asset passes when \(S_f(x;c) \ge \tau_{c,f}\), where the threshold \(\tau_{c,f}\) is the \(\alpha\)-quantile of leave-one-out scores over \(I_c\).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Evaluation -->
+
+
+    <!-- Reliability vs intervention depth -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <h2 class="title is-3 has-text-centered">Reliability Varies With Intervention Depth</h2>
+                        <div class="content">
+                            <p>
+                                Current frontier agents already exhibit substantial functional world-editing capability. Under the strict World-Editing Success Rate (WSR), the evaluated configurations solve between 31.8% and 78.2% of IGMBench tasks, with GPT-5.6 Sol reaching 78.2%. Criterion Pass Rate (CPR) is substantially higher, reaching 94.8%, indicating that many unsuccessful tasks nevertheless satisfy substantial portions of the requested behavior.
+                            </p>
+                        </div>
+                        <div class="content">
+                            <p>
+                                Reliability varies systematically with intervention depth. Every evaluated configuration achieves its highest WSR at L1, while performance is generally lower for deeper dynamics and system interventions, although the relative ordering of L3 and L4 varies across models and games. GPT-5.6 Sol decreases from 96.3% WSR at L1 to 48.1% at L4, while Claude Opus 4.8 decreases from 92.6% to 55.6%. Because deeper tasks also contain more evaluation criteria, we stratify tasks by criterion count: within comparable criterion-count ranges, L1 remains substantially more reliable, suggesting that intervention depth captures structure beyond criterion count alone.
+                            </p>
+                        </div>
+                        <figure class="item">
+                            <div class="figure-pair">
+                                <figure>
+                                    <img src="static/images/wsr_by_level.png" alt="World-editing success rate by intervention level" loading="lazy"/>
+                                    <figcaption>(a) WSR by intervention level</figcaption>
+                                </figure>
+                                <figure>
+                                    <img src="static/images/wsr_by_criteria.png" alt="World-editing success rate by criterion-count bin" loading="lazy"/>
+                                    <figcaption>(b) WSR controlled by criterion count</figcaption>
+                                </figure>
+                            </div>
+                            <figcaption class="fig-caption">
+                                <b>Reliability across intervention depth.</b> Performance differences persist within comparable criterion-count ranges, showing that intervention depth is not reducible to requirement count alone.
+                            </figcaption>
+                        </figure>
+                        <figure class="table-figure">
+                            <div class="table-container">
+                            <table class="table is-narrow is-hoverable results-table">
+                                <thead>
+                                    <tr><th>Model</th><th colspan="2">L1</th><th colspan="2">L2</th><th colspan="2">L3</th><th colspan="2">L4</th><th colspan="2">Overall</th></tr>
+                                    <tr><th></th><th>CPR</th><th>WSR</th><th>CPR</th><th>WSR</th><th>CPR</th><th>WSR</th><th>CPR</th><th>WSR</th><th>CPR</th><th>WSR</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>DeepSeek-V4-Pro</td><td>92.1</td><td>74.1</td><td>80.8</td><td>24.1</td><td>47.7</td><td>18.5</td><td>47.0</td><td>11.1</td><td>63.3</td><td>31.8</td></tr>
+                                    <tr><td>GLM-5.3</td><td>97.6</td><td><u>92.6</u></td><td>82.7</td><td>62.1</td><td>39.8</td><td>25.9</td><td>39.3</td><td>11.1</td><td>60.1</td><td>48.2</td></tr>
+                                    <tr><td>Kimi-K3</td><td>98.5</td><td>88.9</td><td>78.3</td><td>65.5</td><td>61.0</td><td>51.9</td><td>73.3</td><td>33.3</td><td>74.9</td><td>60.0</td></tr>
+                                    <tr><td>Gemini 3.5 Flash</td><td>87.7</td><td>77.8</td><td>86.4</td><td>55.2</td><td>83.5</td><td>37.0</td><td>68.8</td><td><u>59.3</u></td><td>81.0</td><td>57.3</td></tr>
+                                    <tr><td>Claude Opus 4.8</td><td><u>99.6</u></td><td><u>92.6</u></td><td><u>92.8</u></td><td><u>72.4</u></td><td><u>94.7</u></td><td><u>66.7</u></td><td><b>89.4</b></td><td>55.6</td><td><u>93.6</u></td><td><u>71.8</u></td></tr>
+                                    <tr><td>GPT-5.6 Luna</td><td>96.3</td><td><u>92.6</u></td><td>90.2</td><td>58.6</td><td>90.4</td><td>44.4</td><td>80.0</td><td><b>63.0</b></td><td>88.5</td><td>64.5</td></tr>
+                                    <tr><td>GPT-5.6 Sol</td><td><b>99.8</b></td><td><b>96.3</b></td><td><b>93.9</b></td><td><b>86.2</b></td><td><b>98.0</b></td><td><b>81.5</b></td><td><u>88.8</u></td><td>48.1</td><td><b>94.8</b></td><td><b>78.2</b></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                            <figcaption class="fig-caption">
+                            <b>Criterion Pass Rate (CPR) and World-Editing Success Rate (WSR)</b> on IGMBench, broken down by world-intervention level. CPR measures the fraction of individual state and behavioral criteria satisfied; WSR measures the fraction of tasks for which all associated criteria are satisfied. Results are aggregated across Minecraft and Terraria; visual correctness is evaluated separately below. <b>Bold</b>: best; <u>underline</u>: second best.
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Reliability vs intervention depth -->
+
+
+    <!-- Failure structure -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <h2 class="title is-3 has-text-centered">Most Failures Occur After Executability</h2>
+                        <div class="content">
+                            <p>
+                                Most unsuccessful world edits fail after reaching an executable state. Behavioral failures account for the large majority of unsuccessful runs at every intervention level, while build and load failures remain comparatively uncommon. Even at L4, where build failures become more frequent, behavioral correctness remains the dominant failure stage. The principal bottleneck is therefore not producing a modification that compiles and loads, but realizing the requested behavior in the executable world.
+                            </p>
+                        </div>
+                        <div class="content">
+                            <p>
+                                The composition of behavioral failures also changes with depth. L1 failures are almost entirely mechanic semantics, such as a wrong value or formula. From L2 onward, interaction/progression failures, in which new content misbehaves on contact with existing systems, become the largest category and rise to 43% at L4, while resource/registration failures remain at 13&ndash;24% and do not grow with depth. This is consistent with deeper edits requiring coordination across multiple interacting world components rather than a single localized change.
+                            </p>
+                        </div>
+                        <figure class="item">
+                            <div class="figure-pair">
+                                <figure>
+                                    <img src="static/images/failure_stage_by_level.png" alt="Failure stage by intervention level" loading="lazy"/>
+                                    <figcaption>(a) Failure stage by intervention level</figcaption>
+                                </figure>
+                                <figure>
+                                    <img src="static/images/failure_domain_by_level.png" alt="Behavioral failure domain by intervention level" loading="lazy"/>
+                                    <figcaption>(b) Behavioral failure domain by level</figcaption>
+                                </figure>
+                            </div>
+                            <figcaption class="fig-caption">
+                                <b>Failure structure across intervention depth.</b> Behavioral failures dominate across all levels. Among behavioral failures, interaction/progression failures increase from L2 to L4, while resource/registration failures remain relatively stable. Numbers inside bars denote failure counts.
+                            </figcaption>
+                        </figure>
+                        <figure class="item">
+                            <img src="static/images/qual_failuremode.jpg" alt="Representative failure cases across intervention levels" width="100%" loading="lazy"/>
+                            <figcaption class="fig-caption">
+                                <b>Representative failure cases</b> across intervention levels in Minecraft (top) and Terraria (bottom). Columns show entity (L2), dynamics (L3), and system (L4) interventions. Failures include missing registration or assets, incorrect mechanic execution, and unintended system-level behavior.
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Failure structure -->
+
+
+    <!-- Visual consistency -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <h2 class="title is-3 has-text-centered">Visual Consistency Is a Distinct Bottleneck</h2>
+                        <div class="content">
+                            <p>
+                                Visual integration remains substantially weaker than functional world editing. Native game assets achieve joint style-and-semantic pass rates of 0.80 in Minecraft and 0.78 in Terraria, whereas every evaluated agent configuration remains below 0.50; the strongest joint pass rates reach 0.47 in Minecraft and 0.29 in Terraria.
+                            </p>
+                        </div>
+                        <div class="content">
+                            <p>
+                                Visual performance does not follow the ranking observed for functional world editing. Configurations that are weaker on executable state and behavioral correctness can nevertheless perform competitively on visual assets, while the strongest functional agents do not dominate the visual evaluation. This weak correspondence suggests that world editing is multidimensional: successfully modifying the behavior of an executable world does not imply that newly introduced content integrates perceptually with that world.
+                            </p>
+                        </div>
+                        <figure class="table-figure">
+                            <div class="table-container">
+                            <table class="table is-narrow is-hoverable results-table">
+                                <thead>
+                                    <tr><th></th><th colspan="4">Minecraft</th><th colspan="4">Terraria</th></tr>
+                                    <tr><th>Model / Source</th><th>N</th><th>Pass<sub>style</sub></th><th>Pass<sub>sem</sub></th><th>Pass<sub>both</sub></th><th>N</th><th>Pass<sub>style</sub></th><th>Pass<sub>sem</sub></th><th>Pass<sub>both</sub></th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="reference-row"><td>Vanilla (LOO)</td><td>1,989</td><td>0.85</td><td>0.85</td><td>0.80</td><td>15,456</td><td>0.85</td><td>0.85</td><td>0.78</td></tr>
+                                    <tr><td>DeepSeek-V4-Pro</td><td>142</td><td>0.17</td><td>0.23</td><td>0.15</td><td>113</td><td>0.16</td><td>0.23</td><td>0.11</td></tr>
+                                    <tr><td>GLM-5.3</td><td>226</td><td><u>0.49</u></td><td><u>0.53</u></td><td><u>0.40</u></td><td>73</td><td><u>0.32</u></td><td><b>0.37</b></td><td><b>0.29</b></td></tr>
+                                    <tr><td>Kimi-K3</td><td>205</td><td><b>0.52</b></td><td><b>0.54</b></td><td><b>0.47</b></td><td>109</td><td>0.29</td><td>0.35</td><td>0.24</td></tr>
+                                    <tr><td>Gemini 3.5 Flash</td><td>110</td><td>0.32</td><td>0.36</td><td>0.22</td><td>104</td><td><u>0.32</u></td><td>0.32</td><td>0.22</td></tr>
+                                    <tr><td>Claude Opus 4.8</td><td>127</td><td>0.34</td><td>0.42</td><td>0.23</td><td>110</td><td><b>0.35</b></td><td>0.34</td><td><u>0.25</u></td></tr>
+                                    <tr><td>GPT-5.6 Luna</td><td>158</td><td>0.16</td><td>0.20</td><td>0.14</td><td>110</td><td>0.18</td><td><u>0.36</u></td><td>0.12</td></tr>
+                                    <tr><td>GPT-5.6 Sol</td><td>155</td><td>0.23</td><td>0.24</td><td>0.19</td><td>99</td><td>0.22</td><td><b>0.37</b></td><td>0.18</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                            <figcaption class="fig-caption">
+                            <b>Visual quality of agent-produced assets.</b> N counts registered texture assets; vanilla textures and missing files fail all checks. Pass<sub>style</sub>, Pass<sub>sem</sub>, and Pass<sub>both</sub> denote style, semantic, and joint pass rates. Vanilla (LOO) provides the in-game reference, with marginal pass rates of 1&minus;&alpha;=0.85 by construction. <b>Bold</b>: best agent; <u>underline</u>: second best.
+                            </figcaption>
+                        </figure>
+                        <figure class="item">
+                            <div class="figure-stack">
+                                <figure>
+                                    <img src="static/images/qual_assets_minecraft.png" alt="Minecraft item textures grouped by generation method" loading="lazy"/>
+                                    <figcaption>(a) Minecraft</figcaption>
+                                </figure>
+                                <figure>
+                                    <img src="static/images/qual_assets_terraria.png" alt="Terraria item textures grouped by generation method" loading="lazy"/>
+                                    <figcaption>(b) Terraria</figcaption>
+                                </figure>
+                            </div>
+                            <figcaption class="fig-caption">
+                                <b>Item textures grouped by generation method.</b> In each panel: left, image-generated; middle, native game assets; right, programmatically drawn. Minecraft image-generated assets tend toward smoother shading and higher contrast, while programmatic assets are flatter and more geometric than native textures. In Terraria, image-generated assets more closely reproduce the game&rsquo;s dense and outlined visual style, while programmatic assets remain visibly simpler. Each Minecraft panel shows 36 sampled item textures; Terraria panels sample from the same size range.
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Visual consistency -->
+
+
+    <!-- Beyond the benchmark games -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full">
+                        <h2 class="title is-3 has-text-centered">Beyond Minecraft and Terraria</h2>
+                        <div class="content">
+                            <p>
+                                Although IGMBench quantitatively evaluates Minecraft and Terraria, the formulation is not specific to these games. World editing is better viewed as a general capability over executable worlds, with games serving as a concrete and verifiable testbed rather than the boundary of the problem.
+                            </p>
+                        </div>
+                        <figure class="item">
+                            <img src="static/images/qual_othergames.jpg" alt="World-editing examples in PEAK, Palworld, and Starbound" width="100%" loading="lazy"/>
+                            <figcaption class="fig-caption">
+                                <b>World editing beyond the games included in IGMBench.</b> Qualitative examples of property, entity, and dynamics interventions in PEAK, Palworld, and Starbound. These illustrate that the intervention taxonomy applies to additional executable game worlds, but they are not part of the benchmark.
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Beyond the benchmark games -->
+
+
+    <!-- BibTex citation -->
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <h2 class="title">Citation</h2>
+            <p>Citation will be available soon.</p>
+        </div>
+    </section>
+
+</body>
+<style>
+    .results-table {
+        margin: 1rem auto;
+        font-size: 14px;
+    }
+
+    .results-table th,
+    .results-table td {
+        text-align: center !important;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .results-table td:first-child,
+    .results-table th:first-child {
+        text-align: left !important;
+    }
+
+    .results-table tr.ours td {
+        border-top: 2px solid #363636;
+        background-color: #f5f9ff;
+    }
+
+.results-table tr.reference-row td {
+        background-color: #fafafa;
+        font-style: italic;
+        border-bottom: 2px solid #363636;
+    }
+
+    .results-table-small {
+        width: auto;
+    }
+
+    .taxonomy-table {
+        margin: 1rem auto;
+        font-size: 14px;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .taxonomy-table th,
+    .taxonomy-table td {
+        text-align: left;
+        vertical-align: top;
+        line-height: 1.45;
+    }
+
+    .taxonomy-table thead th {
+        border-bottom-width: 2px;
+    }
+
+    .taxonomy-table th.level-cell,
+    .taxonomy-table td.level-cell {
+        width: 3.5rem;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .taxonomy-table th:nth-child(2),
+    .taxonomy-table td:nth-child(2) {
+        width: 30%;
+    }
+
+    .taxonomy-table th:nth-child(3),
+    .taxonomy-table td:nth-child(3) {
+        width: 26%;
+    }
+
+    /* --- ink hierarchy (values/labels never wear a series color) --- */
+    /* --- reading measure: prose is capped, figures and tables stay full width --- */
+    .content {
+        max-width: 42rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* browsers give figure elements 40px side margins by default; reset */
+    figure.item,
+    figure.table-figure {
+        margin: 0 0 1.5rem;
+    }
+
+    .fig-caption {
+        max-width: 46rem;
+        margin: 0.7rem auto 0;
+        font-size: 0.875rem;
+        line-height: 1.55;
+        color: #52514e;
+        text-align: left;
+    }
+
+    .results-table th,
+    .results-table td {
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* affiliations sit a step below the author names (which are is-size-5 / 1.25rem) */
+    .affiliation-block {
+        font-size: 1.08rem;
+    }
+
+    .contact-line {
+        display: block;
+        margin-top: 0.45rem;
+        font-size: 0.95rem;
+        color: #52514e;
+    }
+
+    .tldr-lead {
+        max-width: 42rem;
+        margin: 0 auto 1.6rem;
+    }
+
+    .tldr-lead p {
+        line-height: 1.7;
+    }
+
+    .tldr {
+        max-width: 42rem;
+        margin: 0 auto 2.25rem;
+        list-style: none;
+    }
+
+    .tldr li {
+        position: relative;
+        padding-left: 1.1rem;
+        margin-bottom: 0.7rem;
+        line-height: 1.6;
+        color: #52514e;
+    }
+
+    .tldr li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.62em;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #898781;
+    }
+
+    .tldr li b {
+        color: #0b0b0b;
+    }
+
+    .kpi-row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1px;
+        background: #e8e8e4;
+        border: 1px solid #e8e8e4;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 0 auto;
+        max-width: 60rem;
+    }
+
+    .kpi-tile {
+        background: #fcfcfb;
+        padding: 0.95rem 0.7rem;
+        text-align: center;
+    }
+
+    .kpi-value {
+        font-size: 1.7rem;
+        font-weight: 600;
+        line-height: 1.1;
+        color: #0b0b0b;
+    }
+
+    .kpi-label {
+        margin-top: 0.3rem;
+        font-size: 0.72rem;
+        line-height: 1.35;
+        color: #898781;
+    }
+
+    @media screen and (max-width: 768px) {
+        .kpi-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .kpi-value {
+            font-size: 1.45rem;
+        }
+    }
+
+    .stage-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin: 0.5rem auto 2rem;
+    }
+
+    .stage-card {
+        background: #fcfcfb;
+        border: 1px solid #e8e8e4;
+        border-radius: 6px;
+        padding: 1rem 1.1rem 1.15rem;
+    }
+
+    .stage-num {
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #898781;
+    }
+
+    .stage-title {
+        margin-top: 0.15rem;
+        font-size: 1.02rem;
+        font-weight: 600;
+        color: #0b0b0b;
+    }
+
+    .stage-text {
+        margin-top: 0.45rem;
+        font-size: 0.84rem;
+        line-height: 1.55;
+        color: #52514e;
+        text-align: left;
+    }
+
+    @media screen and (max-width: 768px) {
+        .stage-row {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .equation {
+        margin: 1.4rem auto 1.6rem;
+        text-align: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0.2rem 0;
+    }
+
+    .equation .katex-display {
+        margin: 0;
+    }
+
+    .figure-stack {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.1rem;
+        margin: 1rem 0 0.25rem;
+    }
+
+    .figure-stack figure {
+        margin: 0;
+    }
+
+    .figure-stack img {
+        width: 100%;
+        height: auto;
+        margin: 0;
+    }
+
+    .figure-stack figcaption {
+        margin-top: 0.35rem;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #52514e;
+    }
+
+    .figure-pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1rem 1.3rem;
+        align-items: end;
+        margin: 1rem 0 0.25rem;
+    }
+
+    .figure-pair figure {
+        margin: 0;
+    }
+
+    .figure-pair img {
+        width: 100%;
+        height: auto;
+        margin: 0;
+    }
+
+    .figure-pair figcaption {
+        margin-top: 0.4rem;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #52514e;
+    }
+
+    @media screen and (max-width: 768px) {
+        .figure-pair {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .item img {
+        margin: 1rem 0;
+    }
+
+    a.button[disabled] {
+        pointer-events: none;
+    }
+</style>
+
+</html>
