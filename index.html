@@ -134,21 +134,13 @@
         </div>
     </section>
 
-    <!-- Teaser -->
-    <section class="hero">
-        <div class="hero-body">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full">
-                        <figure class="item">
-                            <img src="static/images/qual_maingames.jpg" alt="Successful world edits in Minecraft and Terraria across intervention levels" width="100%"/>
-                            <figcaption class="fig-caption">
-                                Agents intervene on commercially released games through their native modding ecosystems, from introducing a single new entity to rebuilding a coupled world-level system. Top: Minecraft. Bottom: Terraria.
-                            </figcaption>
-                        </figure>
-                    </div>
-                </div>
-            </div>
+    <!-- Teaser (theater layout: full-width dark band, player as wide as the viewport allows) -->
+    <section class="teaser-theater">
+        <div class="teaser-theater-inner">
+            <video autoplay muted loop playsinline controls preload="metadata"
+                poster="static/videos/teaser_poster.jpg" aria-label="Teaser video: World Editing">
+                <source src="static/videos/teaser.mp4" type="video/mp4">
+            </video>
         </div>
     </section>
     <!-- End teaser -->
@@ -412,6 +404,12 @@
                             <b>Criterion Pass Rate (CPR) and World-Editing Success Rate (WSR)</b> on IGMBench, broken down by world-intervention level. CPR measures the fraction of individual state and behavioral criteria satisfied; WSR measures the fraction of tasks for which all associated criteria are satisfied. Results are aggregated across Minecraft and Terraria; visual correctness is evaluated separately below. <b>Bold</b>: best; <u>underline</u>: second best.
                             </figcaption>
                         </figure>
+                        <figure class="item">
+                            <img src="static/images/qual_maingames.jpg" alt="Representative successful world edits in Minecraft and Terraria" width="100%" loading="lazy"/>
+                            <figcaption class="fig-caption">
+                                <b>Representative successful world edits</b> in Minecraft (top) and Terraria (bottom) across L2 to L4. From left to right, the examples introduce a new entity, add new dynamics, and modify a coupled world-level system.
+                            </figcaption>
+                        </figure>
                     </div>
                 </div>
             </div>
@@ -644,6 +642,31 @@
     figure.item,
     figure.table-figure {
         margin: 0 0 1.5rem;
+    }
+
+    /* theater mode: edge-to-edge dark band; the player grows to the viewport width,
+       capped so it never runs taller than the screen */
+    .teaser-theater {
+        background: #0b0d12;
+        padding: 0 0 1.5rem;
+        margin: 0 0 1.5rem;
+    }
+
+    .teaser-theater-inner {
+        max-width: min(1600px, calc((100vh - 96px) * 16 / 9));
+        margin: 0 auto;
+    }
+
+    .teaser-theater video {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        background: #000;
+    }
+
+    @media screen and (max-width: 768px) {
+        .teaser-theater { padding-bottom: 0.75rem; margin-bottom: 0.75rem; }
     }
 
     .fig-caption {
