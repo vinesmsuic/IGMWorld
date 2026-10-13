@@ -557,10 +557,28 @@
     <section class="section" id="BibTeX">
         <div class="container is-max-desktop content">
             <h2 class="title">Citation</h2>
-            <p>Citation will be available soon.</p>
+            <div class="bibtex-box">
+                <button class="bibtex-copy" type="button" onclick="copyBibtex(this)">Copy</button>
+                <pre><code id="bibtex">@misc{ku2026worldeditinginterveningexecutable,
+      title={World Editing: Intervening on Executable Worlds at Increasing Depth}, 
+      author={Max Ku and Nok-Kan Law and Yu-Chien Tang and Shih-Ying Yeh and Ping Nie and Andy Zheng and Tat Hei Lai and Fei-Yueh Chen and Nikko Yu and Wei-Chieh Sun and Suzy Huang and Chiao-Wei Hsu and Chih-Chuan Huang and Chak-Wing Mak and Ho Yin Sam Ng and Edisy Kin Wai Chan and Min-Hung Chen and Ho Kei Cheng},
+      year={2026},
+      eprint={2610.02331},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2610.02331}, 
+}</code></pre>
+            </div>
         </div>
     </section>
 
+<script>
+    function copyBibtex(btn) {
+        const text = document.getElementById("bibtex").innerText;
+        const done = () => { btn.textContent = "Copied"; setTimeout(() => (btn.textContent = "Copy"), 1500); };
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(done);
+    }
+</script>
 </body>
 <style>
     .results-table {
@@ -667,6 +685,32 @@
 
     @media screen and (max-width: 768px) {
         .teaser-theater { padding-bottom: 0.75rem; margin-bottom: 0.75rem; }
+    }
+
+    .bibtex-box {
+        position: relative;
+    }
+
+    .bibtex-box pre {
+        background: #f5f6f8;
+        border-radius: 10px;
+        padding: 1.2rem 1.4rem;
+        font-size: 0.82rem;
+        line-height: 1.55;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .bibtex-copy {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.6rem;
+        font: 600 0.8rem/1 inherit;
+        padding: 0.45rem 0.8rem;
+        border: 1px solid #d4d6dc;
+        border-radius: 6px;
+        background: #fff;
+        cursor: pointer;
     }
 
     .fig-caption {
